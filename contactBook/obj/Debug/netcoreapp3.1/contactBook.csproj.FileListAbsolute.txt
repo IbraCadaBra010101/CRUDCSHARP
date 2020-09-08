@@ -1,0 +1,13 @@
+C:\oop_csharp\assignments\contactBook\contactBook\bin\Debug\netcoreapp3.1\contactBook.exe
+C:\oop_csharp\assignments\contactBook\contactBook\bin\Debug\netcoreapp3.1\contactBook.deps.json
+C:\oop_csharp\assignments\contactBook\contactBook\bin\Debug\netcoreapp3.1\contactBook.runtimeconfig.json
+C:\oop_csharp\assignments\contactBook\contactBook\bin\Debug\netcoreapp3.1\contactBook.runtimeconfig.dev.json
+C:\oop_csharp\assignments\contactBook\contactBook\bin\Debug\netcoreapp3.1\contactBook.dll
+C:\oop_csharp\assignments\contactBook\contactBook\bin\Debug\netcoreapp3.1\contactBook.pdb
+C:\oop_csharp\assignments\contactBook\contactBook\obj\Debug\netcoreapp3.1\contactBook.csprojAssemblyReference.cache
+C:\oop_csharp\assignments\contactBook\contactBook\obj\Debug\netcoreapp3.1\contactBook.AssemblyInfoInputs.cache
+C:\oop_csharp\assignments\contactBook\contactBook\obj\Debug\netcoreapp3.1\contactBook.AssemblyInfo.cs
+C:\oop_csharp\assignments\contactBook\contactBook\obj\Debug\netcoreapp3.1\contactBook.csproj.CoreCompileInputs.cache
+C:\oop_csharp\assignments\contactBook\contactBook\obj\Debug\netcoreapp3.1\contactBook.dll
+C:\oop_csharp\assignments\contactBook\contactBook\obj\Debug\netcoreapp3.1\contactBook.pdb
+C:\oop_csharp\assignments\contactBook\contactBook\obj\Debug\netcoreapp3.1\contactBook.genruntimeconfig.cache
