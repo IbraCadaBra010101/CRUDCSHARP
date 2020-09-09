@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 
 namespace contactBookProject
 {
@@ -47,43 +47,60 @@ namespace contactBookProject
         }
 
 
-        public static List<ContactBook> AddContacts()
+        public static List<ContactBook> AddFirstName()
         {
             List<ContactBook> contactsList = new List<ContactBook>();
-            for (int i = 0; i < 3; i++)
+            var skip = "skip";
+            ContactBook person = new ContactBook("Empty first name", "");
+
+            while (true)
             {
-                PromptUser(i);
+                ContactBookUtils.FirstNamePrompt();
+                var firstName = ContactBookUtils.FirstNameInput();
+                if (firstName == skip)
+                {
+                    person.ContacFirstName = $"{ContactBookUtils.FirstName} was left empty";
+                    break;
+                }
+                person.FirstName = ContactBookUtils.FirstName + firstName;
+                break;
             }
-            var userInputName = Console.ReadLine();
-            var userInputLastName = Console.ReadLine();
 
-            while (contactsList.Count < 3)
+            while (true)
             {
-                ContactBook person = new ContactBook(userInputName, userInputLastName);
-                contactsList.Add(person);
-            };
+                ContactBookUtils.LastNamePrompt();
+                var lastName = ContactBookUtils.LastNameInput();
+                if (lastName == skip)
+                {
+                    person.ContactLastName = $"{ContactBookUtils.LastName} was left empty";
+                    break;
+                }
+                person.LastName = ContactBookUtils.LastName + lastName;
 
-            Console.WriteLine(contactsList.Count);
-            //a.FirstName = "Mombasa";
-            //Console.WriteLine(a.FirstName);
-            //a.PrintContacts();
-            //string userInputName = "test";
-            //if (!string.IsNullOrEmpty(userInputName))
-            //{
-            //    ContactBook newContactBook = new ContactBook(userInputName);
-            //    contacts.Add(newContactBook);
-            //}
+                break;
+            }
+
+            contactsList.Add(person);
+
             return contactsList;
         }
-        public static void PromptUser(int messageNumber)
-        {
-            List<string> promptMessagesToUser = new List<string>()
-           {
-               "Enter the first name of you contact\n",
-               "Enter the last name of you contact\n",
-               "*************THE CONTACTBOOK APPLICATION 3000*************"
-           }; 
-        }
+
+
+
+
+
+        //a.FirstName = "Mombasa";
+        //Console.WriteLine(a.FirstName);
+        //a.PrintContacts();
+        //string userInputName = "test";
+        //if (!string.IsNullOrEmpty(userInputName))
+        //{
+        //    ContactBook newContactBook = new ContactBook(userInputName);
+        //    contacts.Add(newContactBook);
+        //}
+
+
+
         //public void PrintContacts()
         //{
         //    Console.WriteLine(this.FirstN);
@@ -106,3 +123,7 @@ namespace contactBookProject
 }
 
 // always capitalize first letter of name
+// prompt user to add another contacts 
+// ask user if user wants to skip a detail
+// ask user if wants to exit to menu, view contacts 
+// Add string for firstname i.e ouput FirstName: Jim.
