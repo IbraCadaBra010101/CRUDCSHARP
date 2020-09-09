@@ -35,7 +35,7 @@ namespace contactBookProject
             // AmountOfContacts++;
         }
 
-        public string ContacFirstName
+        public string ContactFirstName
         {
             get => FirstName;
             set => FirstName = value;
@@ -47,19 +47,18 @@ namespace contactBookProject
         }
 
 
-        public static List<ContactBook> AddFirstName()
+        public static ContactBook AddContact()
         {
-            List<ContactBook> contactsList = new List<ContactBook>();
-            var skip = "skip";
-            ContactBook person = new ContactBook("Empty first name", "");
+            const string skip = "skip";
+            var person = new ContactBook("Empty first name", "");
 
-            while (true)
+            while (true) 
             {
                 ContactBookUtils.FirstNamePrompt();
                 var firstName = ContactBookUtils.FirstNameInput();
                 if (firstName == skip)
                 {
-                    person.ContacFirstName = $"{ContactBookUtils.FirstName} was left empty";
+                    person.ContactFirstName = $"{ContactBookUtils.FirstName} was left empty";
                     break;
                 }
                 person.FirstName = ContactBookUtils.FirstName + firstName;
@@ -79,10 +78,7 @@ namespace contactBookProject
 
                 break;
             }
-
-            contactsList.Add(person);
-
-            return contactsList;
+            return person;
         }
 
 

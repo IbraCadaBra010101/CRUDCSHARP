@@ -11,32 +11,31 @@ namespace contactBookProject
         public static string EnterCorrectLastNameInput = "Please enter a valid last name using alphabetical characters only!";
         public static string FirstName = "First Name: ";
         public static string LastName = "Last Name: ";
-        public static string FirstNameInput() // Maybe rename FirstNameInputValidation
+        public static string FirstNameInput() 
         {
             var firstNameInput = Console.ReadLine();
-            bool isInputCharactersOnly = firstNameInput.All(Char.IsLetter);
+            var isInputCharactersOnly = (firstNameInput ?? throw new InvalidOperationException()).All(char.IsLetter); 
 
             while (string.IsNullOrEmpty(firstNameInput) || !isInputCharactersOnly)
             {
                 Console.WriteLine(ContactBookUtils.EnterCorrectFirstNameInput);
                 firstNameInput = Console.ReadLine();
-                isInputCharactersOnly = firstNameInput.All(Char.IsLetter);
+                isInputCharactersOnly = (firstNameInput ?? throw new InvalidOperationException()).All(char.IsLetter);
             }
             return firstNameInput;
         }
-        public static string LastNameInput()  // break validation in this function to its own function. 
+        public static string LastNameInput()  
         {
             var lastNameInput = Console.ReadLine();
-            bool isInputCharactersOnly = lastNameInput.All(Char.IsLetter);
+            var isInputCharactersOnly = (lastNameInput ?? throw new InvalidOperationException()).All(char.IsLetter);
             while (string.IsNullOrEmpty(lastNameInput) || !isInputCharactersOnly)
             {
                 Console.WriteLine(ContactBookUtils.EnterCorrectLastNameInput);
                 lastNameInput = Console.ReadLine();
-                isInputCharactersOnly = lastNameInput.All(Char.IsLetter);
+                isInputCharactersOnly = (lastNameInput ?? throw new InvalidOperationException()).All(char.IsLetter);
             }
             return lastNameInput;
         }
-
 
         public static void FirstNamePrompt()
         {
