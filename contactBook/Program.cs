@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using Newtonsoft.Json;
 using static contactBookProject.ContactBook;
 
 namespace contactBookProject
@@ -10,25 +12,30 @@ namespace contactBookProject
     {
         static void Main(string[] args)
         {
-            
-            var continueAddingContacts = true;
-            List<ContactBook> contactsList = new List<ContactBook>();
-             
-            while (continueAddingContacts)
-            {
-               contactsList.Add(AddContact());
-               Console.WriteLine("Would you like to add another contact?");
-                var userInput = Console.ReadLine();
-                if (userInput != null && userInput.ToLower() == "no")
-                {
-                    continueAddingContacts = false;
-                }
 
-                foreach (var p in contactsList)
-                {
-                    Console.WriteLine($"{p.ContacFirstName} {p.ContactLastName}");
-                }
-            }
+            //var continueAddingContacts = true;
+        AddContact();
+         
+
+
+
+            //while (continueAddingContacts)
+            //{
+
+            //    //var contactsJson = JsonConvert.SerializeObject(AddContact(contactsList));
+            //    //File.WriteAllText(@"C:\oop_csharp\assignments\contactBook\contactBook\ContactBookData\ContactBookData.json", contactsJson);
+            //    //Console.WriteLine("Would you like to add another contact?");
+            //    //var userInput = Console.ReadLine();
+            //    //if (userInput != null && userInput.ToLower() == "no")
+            //    //{
+            //    //    continueAddingContacts = false;
+            //    //}
+
+
+
+            //    //Console.WriteLine("-------");
+            //    //Console.WriteLine(person.ContactFirstName.ToString());
+            //}
 
             //for (int i = 0; i < currentListOfContacts.Count; i++)
             //{

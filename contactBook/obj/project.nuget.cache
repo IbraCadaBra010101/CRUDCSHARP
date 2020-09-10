@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "yj5aW6gu27ERhATFLIJgiNA98vIgxdoEXdQSZyVPUXinGYZkRA04aKwwFdDcUPyNg+BxBxz4swTQBxmtN3H6HQ==",
+  "dgSpecHash": "L9FqjlgyFD+oczef+VDwh/JfqHGsrLMJ70lpHE8DnIhGA9GE6anAfRjHlYnbA0BlSgVVmxHf0i7g2pSi2yxa0Q==",
   "success": true,
   "projectFilePath": "C:\\oop_csharp\\assignments\\contactBook\\contactBook\\contactBookProject.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\46790\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
   "logs": []
 }

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace contactBookProject
@@ -16,6 +18,10 @@ namespace contactBookProject
         //public string Country;
 
         //public static int AmountOfContacts;
+        public override string ToString()
+        {
+            return $" Contact book information: FirstName {FirstName}, LastName: {LastName}";
+        }
 
         public ContactBook(
             string aFirstName,
@@ -47,79 +53,87 @@ namespace contactBookProject
         }
 
 
-        public static ContactBook AddContact()
+        public static void AddContact()
         {
             const string skip = "skip";
-            var person = new ContactBook("Empty first name", "");
+            var continueAddingContacts = true;
+            var contactList = new List<ContactBook>();
 
-            while (true) 
+            do
             {
-                ContactBookUtils.FirstNamePrompt();
-                var firstName = ContactBookUtils.FirstNameInput();
-                if (firstName == skip)
+                var person = new ContactBook("Empty first name", "Empty first name");
+
+                const string yesContinueAdding = "yes";
+                const string noQuitAdding = "no";
+
+                while (true)
                 {
-                    person.ContactFirstName = $"{ContactBookUtils.FirstName} was left empty";
+                    ContactBookUtils.FirstNamePrompt();
+                    var firstName = ContactBookUtils.FirstNameInput();
+                    if (firstName == skip)
+                    {
+                        person.ContactFirstName = "empty";
+                        break;
+                    }
+                    person.FirstName = firstName;
                     break;
                 }
-                person.FirstName = ContactBookUtils.FirstName + firstName;
-                break;
-            }
 
-            while (true)
-            {
-                ContactBookUtils.LastNamePrompt();
-                var lastName = ContactBookUtils.LastNameInput();
-                if (lastName == skip)
+                while (true)
                 {
-                    person.ContactLastName = $"{ContactBookUtils.LastName} was left empty";
+                    ContactBookUtils.LastNamePrompt();
+                    var lastName = ContactBookUtils.LastNameInput();
+                    if (lastName == skip)
+                    {
+                        person.ContactLastName = "empty";
+                        break;
+                    }
+                    person.LastName = lastName;
                     break;
                 }
-                person.LastName = ContactBookUtils.LastName + lastName;
+                Console.WriteLine("Would you like to add another user?\nWrite no if you're not interested or write yes key to continue adding more contacts! ");
+                while (true)
+                {
+                    var quitOrContinue = Console.ReadLine();
+                    if (quitOrContinue == noQuitAdding)
+                    {
+                        continueAddingContacts = false;
+                        break;
+                    }
+                    if (quitOrContinue == yesContinueAdding)
+                    {
+                        break;
+                    }
 
-                break;
+                    if (quitOrContinue == noQuitAdding && quitOrContinue == noQuitAdding) continue;
+                    Console.WriteLine("Please provide a valid answer with a yes or no");
+                    Console.WriteLine("Would you like to add another user?\nWrite no if you're not interested or write yes key to continue adding more contacts! ");
+                }
+                contactList.Add(person);
+            } while (continueAddingContacts);
+
+            if (JsonConvert.DeserializeObject<List<ContactBook>>(File.ReadAllText(
+                @"C:\oop_csharp\assignments\contactBook\contactBook\ContactBookData\ContactBookData.json")) == null)
+            {
+                var contactsJson = JsonConvert.SerializeObject(contactList, formatting: Formatting.Indented);
+                File.WriteAllText(@"C:\oop_csharp\assignments\contactBook\contactBook\ContactBookData\ContactBookData.json", contactsJson);
             }
-            return person;
+            else
+            {
+                var savedContactsJson = JsonConvert.DeserializeObject<List<ContactBook>>(File.ReadAllText(@"C:\oop_csharp\assignments\contactBook\contactBook\ContactBookData\ContactBookData.json"));
+                contactList.AddRange(savedContactsJson);
+                var contactsJson = JsonConvert.SerializeObject(contactList, formatting: Formatting.Indented);
+                File.WriteAllText(@"C:\oop_csharp\assignments\contactBook\contactBook\ContactBookData\ContactBookData.json", contactsJson);
+            }
+
+          
         }
 
-
-
-
-
-        //a.FirstName = "Mombasa";
-        //Console.WriteLine(a.FirstName);
-        //a.PrintContacts();
-        //string userInputName = "test";
-        //if (!string.IsNullOrEmpty(userInputName))
-        //{
-        //    ContactBook newContactBook = new ContactBook(userInputName);
-        //    contacts.Add(newContactBook);
-        //}
-
-
-
-        //public void PrintContacts()
-        //{
-        //    Console.WriteLine(this.FirstN);
-        //}
-        //public void EditContacts()
-        //{
-        //    Console.WriteLine(this.FirstN);
-        //}
-        //public void DeleteContact()
-        //{
-        //    Console.WriteLine(this.FirstN);
-        //}
-
-        //public void ContactBookMenu()
-        //{
-
     }
-
-
 }
 
 // always capitalize first letter of name
-// prompt user to add another contacts 
-// ask user if user wants to skip a detail
+// prompt user to add another contacts - DONE
+// ask user if user wants to skip a detail 
 // ask user if wants to exit to menu, view contacts 
 // Add string for firstname i.e ouput FirstName: Jim.

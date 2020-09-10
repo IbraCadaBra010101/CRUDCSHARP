@@ -5,12 +5,11 @@ namespace contactBookProject
 {
     public class ContactBookUtils
     {
-        public static string FirstNamePromptMessage = "Please enter a first name for your contact in order to proceed!\nRemember to use valid characters i.e no number etc ..";
-        public static string LastNamePromptMessage = "Please enter a last name for your contact in order to proceed!\nRemember to use valid characters i.e no number etc ..";
-        public static string EnterCorrectFirstNameInput = "Please enter a valid first name using alphabetical characters only!";
-        public static string EnterCorrectLastNameInput = "Please enter a valid last name using alphabetical characters only!";
-        public static string FirstName = "First Name: ";
-        public static string LastName = "Last Name: ";
+        public static string FirstNamePromptMessage = "Please enter a first name!\nUse alphabetical characters only. Write skip to jump over this part";
+        public static string LastNamePromptMessage = "Please enter a last name!\nUse alphabetical characters only. Write skip to jump over this part";
+        public static string EnterCorrectFirstNameInput = "Error:\nPlease enter a valid first name using alphabetical characters!";
+        public static string EnterCorrectLastNameInput = "Error:\nPlease enter a valid last name using alphabetical characters!";
+ 
         public static string FirstNameInput() 
         {
             var firstNameInput = Console.ReadLine();
@@ -45,6 +44,8 @@ namespace contactBookProject
         {
             Console.WriteLine(ContactBookUtils.LastNamePromptMessage);
         }
+
+        
     }
 }
 
