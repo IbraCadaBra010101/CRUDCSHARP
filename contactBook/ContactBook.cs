@@ -41,6 +41,32 @@ namespace contactBookProject
             get => Email;
             set => Email = value;
         }
+        public static void ControlMenu() 
+        {
+            Console.WriteLine("Press 1: Add more contacts Press 2: Show my contacts Press 3: Quit ");
+            int userInputMenu = int.Parse(Console.ReadLine());
+            while (userInputMenu != 3)
+            {
+                switch (userInputMenu)
+                {
+                    case 1:
+                        Console.WriteLine("Press 1: Add more contacts Press 2: Show my contacts Press 3: Quit ");
+                        AddContact();
+                        Console.WriteLine("Press 1: Add more contacts Press 2: Show my contacts Press 3: Quit ");
+                        break;
+                    case 2:
+                        Console.WriteLine("Press 1: Add more contacts Press 2: Show my contacts Press 3: Quit ");
+                        ShowContacts();
+                        Console.WriteLine("Press 1: Add more contacts Press 2: Show my contacts Press 3: Quit ");
+                        break;
+                    default:
+                        ControlMenu();
+                        break;
+
+                }
+                userInputMenu = int.Parse(Console.ReadLine());
+            }
+        }
 
         public static void AddContact()
         {
@@ -79,10 +105,32 @@ namespace contactBookProject
             } while (continueAddingContacts);
             ContactBookUtils.SaveDataToJson(contactList);
         }
+        public static void ShowContacts()
+        {
+            var contacts = ContactBookUtils.RetrieveDataFromJson();
+
+            Console.WriteLine($"You have currently have {ContactBook.AmountOfContacts / 2} saved contacts\n");
+
+            for (int i = 0; i < contacts.Count; i++)
+            {
+                Console.WriteLine($"Contact number: {i + 1}");
+                Console.WriteLine(".........................");
+
+                Console.WriteLine($"First Name:{contacts[i].FirstName}");
+                Console.WriteLine(".........................");
+
+                Console.WriteLine($"Last Name:{contacts[i].LastName}");
+                Console.WriteLine(".........................");
+
+                Console.WriteLine($"Email Address:{contacts[i].Email} ");
+                Console.WriteLine(".........................");
+
+                Console.WriteLine($"Phone Number:{contacts[i].PhoneNumber}\n\n");
+            }
+            Console.WriteLine($":::::::::::::::::::::::::");
+        }
     }
-
 }
-
 
 
 

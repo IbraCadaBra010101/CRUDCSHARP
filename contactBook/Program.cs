@@ -12,7 +12,9 @@ namespace contactBookProject
     {
         static void Main(string[] args)
         {
-            AddContact();
+            //AddContact();
+            //ShowContacts();
+            controlMenu();
         }
     }
 }

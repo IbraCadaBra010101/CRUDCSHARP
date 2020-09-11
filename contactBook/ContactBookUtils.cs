@@ -40,6 +40,19 @@ namespace contactBookProject
             }
         }
 
+        public static List<ContactBook> RetrieveDataFromJson()
+        {
+            List<ContactBook> contacts = new List<ContactBook>();
+            if (JsonConvert.DeserializeObject<List<ContactBook>>(File.ReadAllText(
+                @"C:\oop_csharp\assignments\contactBook\contactBook\ContactBookData\ContactBookData.json")) == null)
+            {
+                return contacts;
+            }
+            var currentContacts = JsonConvert.DeserializeObject<List<ContactBook>>(File.ReadAllText(@"C:\oop_csharp\assignments\contactBook\contactBook\ContactBookData\ContactBookData.json"));
+            contacts.AddRange(currentContacts);
+            return contacts;
+        }
+
 
 
 
