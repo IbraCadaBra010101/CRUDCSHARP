@@ -10,7 +10,6 @@ namespace contactBookProject
         private string LastName { get; set; }
         private string PhoneNumber { get; set; }
         private string Email { get; set; }
-        public static int AmountOfContacts;
 
         public ContactBook(string aFirstName, string aLastName, string aPhoneNumber, string aEmail)
         {
@@ -18,7 +17,6 @@ namespace contactBookProject
             LastName = aLastName;
             PhoneNumber = aPhoneNumber;
             Email = aEmail;
-            AmountOfContacts++;
         }
 
         public string ContactFirstName
@@ -41,23 +39,26 @@ namespace contactBookProject
             get => Email;
             set => Email = value;
         }
-        public static void ControlMenu() 
+        public static void ControlMenu()
         {
-            Console.WriteLine("Press 1: Add more contacts Press 2: Show my contacts Press 3: Quit ");
+            var menuOptions = "Menu options: Enter a number to proceed!\n1.Add contacts 2.Print contacts 3.Delete contacts 4. Edit contacts 5. Erase all contacts";
+            Console.WriteLine(menuOptions);
             int userInputMenu = int.Parse(Console.ReadLine());
-            while (userInputMenu != 3)
-            {
+            while (userInputMenu != 4)
+            { 
                 switch (userInputMenu)
                 {
                     case 1:
-                        Console.WriteLine("Press 1: Add more contacts Press 2: Show my contacts Press 3: Quit ");
                         AddContact();
-                        Console.WriteLine("Press 1: Add more contacts Press 2: Show my contacts Press 3: Quit ");
+                        Console.WriteLine(menuOptions);
                         break;
                     case 2:
-                        Console.WriteLine("Press 1: Add more contacts Press 2: Show my contacts Press 3: Quit ");
                         ShowContacts();
-                        Console.WriteLine("Press 1: Add more contacts Press 2: Show my contacts Press 3: Quit ");
+                        Console.WriteLine(menuOptions);
+                        break;
+                    case 3:
+                        DeleteContact();
+                        Console.WriteLine(menuOptions);
                         break;
                     default:
                         ControlMenu();
@@ -65,6 +66,7 @@ namespace contactBookProject
 
                 }
                 userInputMenu = int.Parse(Console.ReadLine());
+                Console.Clear();
             }
         }
 
@@ -86,6 +88,7 @@ namespace contactBookProject
                 while (true)
                 {
                     var quitOrContinue = Console.ReadLine();
+                    Console.Clear();
                     if (quitOrContinue == quitAdding)
                     {
                         continueAddingContacts = false;
@@ -103,31 +106,76 @@ namespace contactBookProject
                 contactList.Add(person);
 
             } while (continueAddingContacts);
-            ContactBookUtils.SaveDataToJson(contactList);
+            ContactBookUtils.WriteDataJson(contactList);
+            
+
         }
         public static void ShowContacts()
         {
-            var contacts = ContactBookUtils.RetrieveDataFromJson();
+            var contacts = ContactBookUtils.ReadDataJson();
 
-            Console.WriteLine($"You have currently have {ContactBook.AmountOfContacts / 2} saved contacts\n");
+            if (contacts.Count < 1) Console.WriteLine("You do not have any contacts stored.");
+            else
+                for (var i = 0; i < contacts.Count; i++)
+                {
+                    Console.WriteLine($"Contact number: {i + 1}");
+                    Console.WriteLine($"First Name:{contacts[i].FirstName} Last Name:{contacts[i].LastName}");
+                    Console.WriteLine($"Email Address:{contacts[i].Email} ");
+                    Console.WriteLine($"Phone Number:{contacts[i].PhoneNumber}\n");
+                }
+        }
 
-            for (int i = 0; i < contacts.Count; i++)
+        public static void DeleteContact()
+        {
+            var continueRemovingContacts = true;
+            do
             {
-                Console.WriteLine($"Contact number: {i + 1}");
-                Console.WriteLine(".........................");
+                ShowContacts();
+                Console.WriteLine("Enter the contact number of the contact you would like to delete!");
+                var contacts = ContactBookUtils.ReadDataJson();
+                var deleteContactAtIndexInput = int.Parse(Console.ReadLine());
+                var indexIsNotOutOfBound =
+                    deleteContactAtIndexInput > contacts.Count || deleteContactAtIndexInput < 1;
+                while (indexIsNotOutOfBound)
+                {
+                    Console.WriteLine($"No user was found with the contact number {deleteContactAtIndexInput}");
+                    deleteContactAtIndexInput = int.Parse(Console.ReadLine());
+                    indexIsNotOutOfBound =
+                        deleteContactAtIndexInput > contacts.Count || deleteContactAtIndexInput < contacts.Count;
+                }
+                var personFirstNameDeleted = contacts[deleteContactAtIndexInput - 1].FirstName;
+                var personLastNameDeleted = contacts[deleteContactAtIndexInput - 1].FirstName;
+                contacts.Remove(contacts[deleteContactAtIndexInput - 1]);
+                ContactBookUtils.DeleteDataJson(contacts);
+                ShowContacts();
+                Console.WriteLine($"{personFirstNameDeleted} {personLastNameDeleted} has been deleted from your contacts!");
+                if (contacts.Count > 0)
+                {
+                    Console.WriteLine("Would you like to delete another contact Answer with yes/no?");
+                    var isUserWantToDeleteMoreInput = Console.ReadLine();
+                    Console.Clear();
+                    var answerIsNotYesOrNo =
+                        isUserWantToDeleteMoreInput != "yes" && isUserWantToDeleteMoreInput != "no";
+                    while (answerIsNotYesOrNo)
+                    {
+                        Console.WriteLine("Provide a valid answer with yes/no. Delete more contacts yes or no?");
+                        isUserWantToDeleteMoreInput = Console.ReadLine();
+                        answerIsNotYesOrNo =
+                            isUserWantToDeleteMoreInput != "yes" && isUserWantToDeleteMoreInput != "no";
+                    }
 
-                Console.WriteLine($"First Name:{contacts[i].FirstName}");
-                Console.WriteLine(".........................");
+                    if (isUserWantToDeleteMoreInput == "no" )
+                    {
+                        continueRemovingContacts = false;
+                    }
+                }
+                else
+                {
+                    continueRemovingContacts = false;
+                }
+            } while (continueRemovingContacts);
 
-                Console.WriteLine($"Last Name:{contacts[i].LastName}");
-                Console.WriteLine(".........................");
 
-                Console.WriteLine($"Email Address:{contacts[i].Email} ");
-                Console.WriteLine(".........................");
-
-                Console.WriteLine($"Phone Number:{contacts[i].PhoneNumber}\n\n");
-            }
-            Console.WriteLine($":::::::::::::::::::::::::");
         }
     }
 }

@@ -23,7 +23,7 @@ namespace contactBookProject
         public static string EnterCorrectEmailInput = "Error:\nPlease enter a valid email address. Ex muemail123@gmail.com";
 
 
-        public static void SaveDataToJson(List<ContactBook> contacts)
+        public static void WriteDataJson(List<ContactBook> contacts)
         {
             if (JsonConvert.DeserializeObject<List<ContactBook>>(File.ReadAllText(
                 @"C:\oop_csharp\assignments\contactBook\contactBook\ContactBookData\ContactBookData.json")) == null)
@@ -38,9 +38,9 @@ namespace contactBookProject
                 var contactsJson = JsonConvert.SerializeObject(contacts, formatting: Formatting.Indented);
                 File.WriteAllText(@"C:\oop_csharp\assignments\contactBook\contactBook\ContactBookData\ContactBookData.json", contactsJson);
             }
-        }
+        } 
 
-        public static List<ContactBook> RetrieveDataFromJson()
+        public static List<ContactBook> ReadDataJson()
         {
             List<ContactBook> contacts = new List<ContactBook>();
             if (JsonConvert.DeserializeObject<List<ContactBook>>(File.ReadAllText(
@@ -53,7 +53,11 @@ namespace contactBookProject
             return contacts;
         }
 
-
+        public static void DeleteDataJson(List<ContactBook> contacts)
+        {
+            var contactsJson = JsonConvert.SerializeObject(contacts, formatting: Formatting.Indented);
+            File.WriteAllText(@"C:\oop_csharp\assignments\contactBook\contactBook\ContactBookData\ContactBookData.json", contactsJson);
+        }
 
 
 
@@ -76,7 +80,6 @@ namespace contactBookProject
         {
             Console.WriteLine(ContactBookUtils.EmailPromptMessage);
         }
-
 
 
 
@@ -135,10 +138,6 @@ namespace contactBookProject
             }
             return emailInput;
         }
-
-
-
-
 
         public static void CreateFirstName(ContactBook person, string skip)
         {
