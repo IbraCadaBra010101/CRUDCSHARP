@@ -41,11 +41,11 @@ namespace contactBookProject
         }
         public static void ControlMenu()
         {
-            var menuOptions = "Menu options: Enter a number to proceed!\n1.Add contacts 2.Print contacts 3.Delete contacts 4. Edit contacts 5. Erase all contacts";
+            var menuOptions = "Menu options: Enter a number to proceed!\n1. Add contacts 2. Print contacts 3. Delete contacts 4. Edit contacts";
             Console.WriteLine(menuOptions);
-            int userInputMenu = int.Parse(Console.ReadLine());
-            while (userInputMenu != 4)
-            { 
+            int userInputMenu = ContactBookUtils.MenuOptionInput();
+            while (userInputMenu <= 4)
+            {
                 switch (userInputMenu)
                 {
                     case 1:
@@ -60,12 +60,12 @@ namespace contactBookProject
                         DeleteContact();
                         Console.WriteLine(menuOptions);
                         break;
-                    default:
-                        ControlMenu();
+                    case 4:
+                        EditContact();
+                        Console.WriteLine(menuOptions);
                         break;
-
                 }
-                userInputMenu = int.Parse(Console.ReadLine());
+                userInputMenu = ContactBookUtils.MenuOptionInput();
                 Console.Clear();
             }
         }
@@ -107,7 +107,7 @@ namespace contactBookProject
 
             } while (continueAddingContacts);
             ContactBookUtils.WriteDataJson(contactList);
-            
+
 
         }
         public static void ShowContacts()
@@ -127,65 +127,90 @@ namespace contactBookProject
 
         public static void DeleteContact()
         {
-            var continueRemovingContacts = true;
+            bool continueRemovingContacts;
+            const string delete = "delete";
             do
             {
                 ShowContacts();
-                Console.WriteLine("Enter the contact number of the contact you would like to delete!");
+                Console.WriteLine("Enter the number for the contact you would like to delete!");
                 var contacts = ContactBookUtils.ReadDataJson();
-                var deleteContactAtIndexInput = int.Parse(Console.ReadLine());
-                var indexIsNotOutOfBound =
-                    deleteContactAtIndexInput > contacts.Count || deleteContactAtIndexInput < 1;
-                while (indexIsNotOutOfBound)
-                {
-                    Console.WriteLine($"No user was found with the contact number {deleteContactAtIndexInput}");
-                    deleteContactAtIndexInput = int.Parse(Console.ReadLine());
-                    indexIsNotOutOfBound =
-                        deleteContactAtIndexInput > contacts.Count || deleteContactAtIndexInput < contacts.Count;
-                }
+                var deleteContactAtIndexInput = ContactBookUtils.ValidateInputIsInRangeOfList(contacts);
                 var personFirstNameDeleted = contacts[deleteContactAtIndexInput - 1].FirstName;
-                var personLastNameDeleted = contacts[deleteContactAtIndexInput - 1].FirstName;
+                var personLastNameDeleted = contacts[deleteContactAtIndexInput - 1].LastName;
                 contacts.Remove(contacts[deleteContactAtIndexInput - 1]);
-                ContactBookUtils.DeleteDataJson(contacts);
+                ContactBookUtils.DeleteEditDataJson(contacts);
                 ShowContacts();
                 Console.WriteLine($"{personFirstNameDeleted} {personLastNameDeleted} has been deleted from your contacts!");
-                if (contacts.Count > 0)
-                {
-                    Console.WriteLine("Would you like to delete another contact Answer with yes/no?");
-                    var isUserWantToDeleteMoreInput = Console.ReadLine();
-                    Console.Clear();
-                    var answerIsNotYesOrNo =
-                        isUserWantToDeleteMoreInput != "yes" && isUserWantToDeleteMoreInput != "no";
-                    while (answerIsNotYesOrNo)
-                    {
-                        Console.WriteLine("Provide a valid answer with yes/no. Delete more contacts yes or no?");
-                        isUserWantToDeleteMoreInput = Console.ReadLine();
-                        answerIsNotYesOrNo =
-                            isUserWantToDeleteMoreInput != "yes" && isUserWantToDeleteMoreInput != "no";
-                    }
+                continueRemovingContacts = ContactBookUtils.PromptUserToContinueDeletingEditingContacts(contacts, delete);
 
-                    if (isUserWantToDeleteMoreInput == "no" )
-                    {
-                        continueRemovingContacts = false;
-                    }
-                }
-                else
-                {
-                    continueRemovingContacts = false;
-                }
             } while (continueRemovingContacts);
 
+        }
+
+        public static void EditContact()
+        {
+            bool continueEditingContacts;
+            const string edit = "edit";
+
+            do
+            {
+                ShowContacts();
+                Console.WriteLine("Enter the contact number for the contact you would like to edit!");
+                var contacts = ContactBookUtils.ReadDataJson();
+                var editContactAtIndexInput = ContactBookUtils.ValidateInputIsInRangeOfList(contacts);
+                var editAnotherDetailOnCurrentContact = true;
+                Console.WriteLine("You have chosen to edit:");
+                Console.WriteLine($"{contacts[editContactAtIndexInput - 1].ContactFirstName}");
+                Console.WriteLine($"{contacts[editContactAtIndexInput - 1].LastName}");
+                Console.WriteLine($"{contacts[editContactAtIndexInput - 1].PhoneNumber}");
+                Console.WriteLine($"{contacts[editContactAtIndexInput - 1].Email}");
+
+                do
+                {
+                    Console.WriteLine("Which part would you like to edit?\n Press one of the numbers\n1. First name 2. Last name 3. Phone number 4. Email");
+                    var editContactDetailNumber = ContactBookUtils.EnterCorrectNumberToEditDetail();
+                    switch (editContactDetailNumber)
+                    {
+                        case 1:
+                            ContactBookUtils.CreateFirstName(contacts[editContactAtIndexInput - 1], "skip");
+                            break;
+                        case 2:
+                            ContactBookUtils.CreateLastName(contacts[editContactAtIndexInput - 1], "skip");
+                            break;
+                        case 3:
+                            ContactBookUtils.CreatePhoneNumber(contacts[editContactAtIndexInput - 1], "skip");
+                            break;
+                        case 4:
+                            ContactBookUtils.CreateEmail(contacts[editContactAtIndexInput - 1], "skip");
+                            break;
+                    }
+
+                    Console.WriteLine("Would you like to edit another part on the current contact?\nAnswer with yes/no");
+                    var editOneMoreDetailOnCurrentContactInput = Console.ReadLine();
+                    var answerIsNotYesOrNo = editOneMoreDetailOnCurrentContactInput != "yes" && editOneMoreDetailOnCurrentContactInput != "no";
+                    while (answerIsNotYesOrNo)
+                    {
+                        Console.WriteLine("Please answer with yes/no!");
+                        editOneMoreDetailOnCurrentContactInput = Console.ReadLine();
+                        answerIsNotYesOrNo = editOneMoreDetailOnCurrentContactInput != "yes" && editOneMoreDetailOnCurrentContactInput != "no";
+
+                    }
+
+                    if (editOneMoreDetailOnCurrentContactInput == "no")
+                        editAnotherDetailOnCurrentContact = false;
+
+                } while (editAnotherDetailOnCurrentContact);
+
+                Console.WriteLine($"Edit was successful!");
+                Console.WriteLine($"{contacts[editContactAtIndexInput - 1].ContactFirstName}");
+                Console.WriteLine($"{contacts[editContactAtIndexInput - 1].LastName}");
+                Console.WriteLine($"{contacts[editContactAtIndexInput - 1].PhoneNumber}");
+                Console.WriteLine($"{contacts[editContactAtIndexInput - 1].Email}");
+
+                ContactBookUtils.DeleteEditDataJson(contacts);
+                continueEditingContacts = ContactBookUtils.PromptUserToContinueDeletingEditingContacts(contacts, edit);
+            } while (continueEditingContacts);
 
         }
     }
 }
-
-
-
-
-
-// always capitalize first letter of name
-// prompt user to add another contacts - DONE
-// ask user if user wants to skip a detail 
-// ask user if wants to exit to menu, view contacts 
-// Add string for firstname i.e ouput FirstName: Jim.

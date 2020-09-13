@@ -12,7 +12,6 @@ namespace contactBookProject
     {
         static void Main(string[] args)
         {
-        
             ControlMenu();
         }
     }

@@ -21,7 +21,9 @@ namespace contactBookProject
         public static string EnterCorrectLastNameInput = "Error:\nPlease enter a valid last name using alphabetical characters!";
         public static string EnterCorrectPhoneNumberFormat = "Error:\nPlease enter a valid swedish mobile phone number. Ex 0792345304";
         public static string EnterCorrectEmailInput = "Error:\nPlease enter a valid email address. Ex muemail123@gmail.com";
-
+        public static string EnterCorrectInputToMen = "Error:\nPlease select an option using only the numbers 1 to 5!";
+        public static string EnterExistingContactNumber = "Error:\nContact does not exist! Please enter a valid number";
+        public static string EnterCorrectDetailToEditNumber = "Error:\nEnter a valid number!\nWhich part would you like to edit? 1. First name 2. Last name 3. Phone number 4. Email";
 
         public static void WriteDataJson(List<ContactBook> contacts)
         {
@@ -38,7 +40,7 @@ namespace contactBookProject
                 var contactsJson = JsonConvert.SerializeObject(contacts, formatting: Formatting.Indented);
                 File.WriteAllText(@"C:\oop_csharp\assignments\contactBook\contactBook\ContactBookData\ContactBookData.json", contactsJson);
             }
-        } 
+        }
 
         public static List<ContactBook> ReadDataJson()
         {
@@ -52,8 +54,8 @@ namespace contactBookProject
             contacts.AddRange(currentContacts);
             return contacts;
         }
-
-        public static void DeleteDataJson(List<ContactBook> contacts)
+         
+        public static void DeleteEditDataJson(List<ContactBook> contacts)
         {
             var contactsJson = JsonConvert.SerializeObject(contacts, formatting: Formatting.Indented);
             File.WriteAllText(@"C:\oop_csharp\assignments\contactBook\contactBook\ContactBookData\ContactBookData.json", contactsJson);
@@ -205,9 +207,96 @@ namespace contactBookProject
                 break;
             }
         }
+        public static int MenuOptionInput()
+        {
+            var inputIsInvalid = true;
+            int correctInput;
+            do
+            {
+                if (int.TryParse(Console.ReadLine(), out correctInput) && correctInput > 0 && correctInput < 5) inputIsInvalid = false;
+                else Console.WriteLine(EnterCorrectInputToMen);
+
+            } while (inputIsInvalid);
+            return correctInput;
+        }
+
+        public static int ValidateInputIsInRangeOfList(List<ContactBook> contacts)
+        {
+            var inputIsValidAndWithinRangeInList = true;
+            int deleteContactAtIndexInput;
+            do
+            {
+                if (int.TryParse(Console.ReadLine(), out deleteContactAtIndexInput) && deleteContactAtIndexInput <= contacts.Count && deleteContactAtIndexInput > 0)
+                    inputIsValidAndWithinRangeInList = false;
+                else Console.WriteLine(EnterExistingContactNumber);
+
+            } while (inputIsValidAndWithinRangeInList);
+
+            return deleteContactAtIndexInput;
+        }
+
+        public static bool PromptUserToContinueDeletingEditingContacts(List<ContactBook> contacts, string editOrDelete)
+        {
+            var continueRemovingContacts = true;
+            if (contacts.Count > 0)
+            {
+                switch (editOrDelete)
+                {
+                    case "edit":
+                        Console.WriteLine("Would you like to edit another contact? Answer with yes/no?");
+                        break;
+                    case "delete":
+                        Console.WriteLine("Would you like to delete another contact? Answer with yes/no?");
+                        break;
+                }
+
+                var isUserWantToDeleteMoreInput = Console.ReadLine();
+                Console.Clear();
+                var answerIsNotYesOrNo =
+                    isUserWantToDeleteMoreInput != "yes" && isUserWantToDeleteMoreInput != "no";
+                while (answerIsNotYesOrNo)
+                {
+                    switch (editOrDelete)
+                    {
+                        case "edit":
+                            Console.WriteLine("Please provide a valid answer!\nWould you like to edit another contact? Answer with yes/no?");
+                            break;
+                        case "delete":
+                            Console.WriteLine("Please provide a valid answer!\nWould you like to delete another contact? Answer with yes/no?");
+                            break;
+                    }
+                    isUserWantToDeleteMoreInput = Console.ReadLine();
+                    answerIsNotYesOrNo =
+                        isUserWantToDeleteMoreInput != "yes" && isUserWantToDeleteMoreInput != "no";
+                }
+
+                if (isUserWantToDeleteMoreInput == "no")
+                {
+                    continueRemovingContacts = false;
+                }
+            }
+            else
+            {
+                continueRemovingContacts = false;
+            }
+            return continueRemovingContacts;
+        }
+
+        public static int EnterCorrectNumberToEditDetail()
+        {
+            var continueUntilCorrectNumber = true;
+            int correctNumber;
+            do
+            {
+                if (int.TryParse(Console.ReadLine(), out correctNumber) && correctNumber > 0 && correctNumber < 5)
+                    continueUntilCorrectNumber = false;
+                else Console.WriteLine(EnterCorrectDetailToEditNumber);
+
+            } while (continueUntilCorrectNumber);
+
+            return correctNumber;
+        }
+         
     }
 
 }
-
-
-
