@@ -21,7 +21,7 @@ namespace contactBookProject
         public static string EnterCorrectLastNameInput = "Error:\nPlease enter a valid last name using alphabetical characters!";
         public static string EnterCorrectPhoneNumberFormat = "Error:\nPlease enter a valid swedish mobile phone number. Ex 0792345304";
         public static string EnterCorrectEmailInput = "Error:\nPlease enter a valid email address. Ex muemail123@gmail.com";
-        public static string EnterCorrectInputToMen = "Error:\nPlease select an option using only the numbers 1 to 5!";
+        public static string EnterCorrectInputToMen = "Error:\nPlease select an option using only the numbers 1 to 4!";
         public static string EnterExistingContactNumber = "Error:\nContact does not exist! Please enter a valid number";
         public static string EnterCorrectDetailToEditNumber = "Error:\nEnter a valid number!\nWhich part would you like to edit? 1. First name 2. Last name 3. Phone number 4. Email";
 
@@ -54,7 +54,7 @@ namespace contactBookProject
             contacts.AddRange(currentContacts);
             return contacts;
         }
-         
+
         public static void DeleteEditDataJson(List<ContactBook> contacts)
         {
             var contactsJson = JsonConvert.SerializeObject(contacts, formatting: Formatting.Indented);
@@ -296,7 +296,7 @@ namespace contactBookProject
 
             return correctNumber;
         }
-         
+
     }
 
 }

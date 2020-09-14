@@ -41,31 +41,61 @@ namespace contactBookProject
         }
         public static void ControlMenu()
         {
-            var menuOptions = "Menu options: Enter a number to proceed!\n1. Add contacts 2. Print contacts 3. Delete contacts 4. Edit contacts";
+            const string menuOptions = "Menu options: Enter a number to proceed!\n1. Add contacts 2. Print contacts 3. Delete contacts 4. Edit contacts";
             Console.WriteLine(menuOptions);
-            int userInputMenu = ContactBookUtils.MenuOptionInput();
+            var userInputMenu = ContactBookUtils.MenuOptionInput();
+
             while (userInputMenu <= 4)
             {
+                var contacts = ContactBookUtils.ReadDataJson();
                 switch (userInputMenu)
                 {
+
                     case 1:
                         AddContact();
                         Console.WriteLine(menuOptions);
                         break;
                     case 2:
-                        ShowContacts();
-                        Console.WriteLine(menuOptions);
+                        if (contacts.Count > 0)
+                        {
+                            ShowContacts();
+                            Console.WriteLine(menuOptions);
+                        }
+                        else
+                        {
+                            Console.WriteLine("No contacts to show. Press 1 to add a contact");
+                            Console.WriteLine(menuOptions);
+
+                        }
                         break;
                     case 3:
-                        DeleteContact();
-                        Console.WriteLine(menuOptions);
+                        if (contacts.Count > 0)
+                        {
+                            DeleteContact();
+                            Console.WriteLine(menuOptions);
+                        }
+                        else
+                        {
+                            Console.WriteLine("No contacts to delete. Press 1 to add a contact");
+                            Console.WriteLine(menuOptions);
+                        }
+
                         break;
                     case 4:
-                        EditContact();
-                        Console.WriteLine(menuOptions);
+                        if (contacts.Count > 0)
+                        {
+                            EditContact();
+                            Console.WriteLine(menuOptions);
+                        }
+                        else
+                        {
+                            Console.WriteLine("No contact to edit. Press 1 to add a contact");
+                            Console.WriteLine(menuOptions);
+                        }
                         break;
                 }
                 userInputMenu = ContactBookUtils.MenuOptionInput();
+
                 Console.Clear();
             }
         }
@@ -167,7 +197,7 @@ namespace contactBookProject
 
                 do
                 {
-                    Console.WriteLine("Which part would you like to edit?\n Press one of the numbers\n1. First name 2. Last name 3. Phone number 4. Email");
+                    Console.WriteLine("Which part would you like to edit?\nPress one of the numbers\n1. First name 2. Last name 3. Phone number 4. Email");
                     var editContactDetailNumber = ContactBookUtils.EnterCorrectNumberToEditDetail();
                     switch (editContactDetailNumber)
                     {
