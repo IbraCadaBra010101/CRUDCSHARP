@@ -13,4 +13,10 @@
     <Folder Include="ContactBookData\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="ContactBookData\ContactBookData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

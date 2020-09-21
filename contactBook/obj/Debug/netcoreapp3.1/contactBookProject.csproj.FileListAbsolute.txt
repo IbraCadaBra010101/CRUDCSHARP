@@ -13,3 +13,4 @@ C:\oop_csharp\assignments\contactBook\contactBook\obj\Debug\netcoreapp3.1\contac
 C:\oop_csharp\assignments\contactBook\contactBook\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
 C:\oop_csharp\assignments\contactBook\contactBook\obj\Debug\netcoreapp3.1\contactBookProject.csproj.CoreCompileInputs.cache
 C:\oop_csharp\assignments\contactBook\contactBook\obj\Debug\netcoreapp3.1\contactBookProject.csproj.CopyComplete
+C:\oop_csharp\assignments\contactBook\contactBook\bin\Debug\netcoreapp3.1\ContactBookData\ContactBookData.json

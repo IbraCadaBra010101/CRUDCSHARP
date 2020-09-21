@@ -10,6 +10,7 @@ namespace contactBookProject
 {
     public class ContactBookUtils
     {
+        private const string contactsStorageFile = "ContactBookData/ContactBookData.json";
         public static string FirstNamePromptMessage = "Please enter a first name!\nUse alphabetical characters only. Write skip to jump over this part";
         public static string LastNamePromptMessage = "Please enter a last name!\nUse alphabetical characters only. Write skip to jump over this part";
         public static string PhoneNumberPromptMessage = "Please enter a swedish mobile phone number. Ex 0792345304";
@@ -28,17 +29,17 @@ namespace contactBookProject
         public static void WriteDataJson(List<ContactBook> contacts)
         {
             if (JsonConvert.DeserializeObject<List<ContactBook>>(File.ReadAllText(
-                @"C:\oop_csharp\assignments\contactBook\contactBook\ContactBookData\ContactBookData.json")) == null)
+                contactsStorageFile)) == null)
             {
                 var contactsJson = JsonConvert.SerializeObject(contacts, formatting: Formatting.Indented);
-                File.WriteAllText(@"C:\oop_csharp\assignments\contactBook\contactBook\ContactBookData\ContactBookData.json", contactsJson);
+                File.WriteAllText(contactsStorageFile, contactsJson);
             }
             else
             {
-                var savedContactsJson = JsonConvert.DeserializeObject<List<ContactBook>>(File.ReadAllText(@"C:\oop_csharp\assignments\contactBook\contactBook\ContactBookData\ContactBookData.json"));
+                var savedContactsJson = JsonConvert.DeserializeObject<List<ContactBook>>(File.ReadAllText(contactsStorageFile));
                 contacts.AddRange(savedContactsJson);
                 var contactsJson = JsonConvert.SerializeObject(contacts, formatting: Formatting.Indented);
-                File.WriteAllText(@"C:\oop_csharp\assignments\contactBook\contactBook\ContactBookData\ContactBookData.json", contactsJson);
+                File.WriteAllText(contactsStorageFile, contactsJson);
             }
         }
 
@@ -46,11 +47,11 @@ namespace contactBookProject
         {
             List<ContactBook> contacts = new List<ContactBook>();
             if (JsonConvert.DeserializeObject<List<ContactBook>>(File.ReadAllText(
-                @"C:\oop_csharp\assignments\contactBook\contactBook\ContactBookData\ContactBookData.json")) == null)
+                contactsStorageFile)) == null)
             {
                 return contacts;
             }
-            var currentContacts = JsonConvert.DeserializeObject<List<ContactBook>>(File.ReadAllText(@"C:\oop_csharp\assignments\contactBook\contactBook\ContactBookData\ContactBookData.json"));
+            var currentContacts = JsonConvert.DeserializeObject<List<ContactBook>>(File.ReadAllText(contactsStorageFile));
             contacts.AddRange(currentContacts);
             return contacts;
         }
@@ -58,7 +59,7 @@ namespace contactBookProject
         public static void DeleteEditDataJson(List<ContactBook> contacts)
         {
             var contactsJson = JsonConvert.SerializeObject(contacts, formatting: Formatting.Indented);
-            File.WriteAllText(@"C:\oop_csharp\assignments\contactBook\contactBook\ContactBookData\ContactBookData.json", contactsJson);
+            File.WriteAllText(contactsStorageFile, contactsJson);
         }
 
 
